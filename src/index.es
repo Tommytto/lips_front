@@ -2,10 +2,12 @@ import React from 'react';
 import {render} from 'react-dom';
 import {Provider} from 'react-redux';
 
+import 'src/style/main.less'
+
 import Router from './components/Router/index';
-import configureStore from './redux/configure-store';
+import configureStore from './configure-store';
 import Api from './api/index';
-import reducers from './redux/reducers/index';
+import reducers from './reducers/index';
 
 const isProduction = process.env.NODE_ENV === 'production';
 const host = '';
@@ -32,8 +34,8 @@ if (module.hot) {
     });
 
     // Enable Webpack hot module replacement for reducers
-    module.hot.accept('./redux/reducers', () => {
-        const nextReducer = require('./redux/reducers').default;
+    module.hot.accept('./reducers', () => {
+        const nextReducer = require('./reducers').default;
         store.replaceReducer(nextReducer);
     });
 }

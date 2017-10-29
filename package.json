@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Настройка окружения для React",
   "scripts": {
-    "start": "webpack-dev-server -d --config webpack.config.es",
-    "dev": "webpack -d --watch --config webpack.config.es",
+    "start": "cross-env NODE_ENV=development webpack-dev-server -d --config webpack.config.es",
+    "dev": "cross-env NODE_ENV=development webpack -d --watch --config webpack.config.es",
     "build": "cross-env NODE_ENV=production webpack -p --config webpack.config.es"
   },
   "repository": {
@@ -19,9 +19,12 @@
   "license": "ISC",
   "dependencies": {
     "babel-runtime": "^6.26.0",
+    "bem-cn": "^2.1.3",
+    "bootstrap": "^3.3.7",
     "react": "^15.6.2",
     "react-baron": "^0.8.0",
     "react-dom": "^15.6.2",
+    "react-modal": "^3.1.0",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
@@ -30,7 +33,7 @@
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
-    "autoprefixer": "^7.1.2",
+    "autoprefixer": "^7.1.6",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-runtime": "^6.23.0",
@@ -39,21 +42,22 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "clean-webpack-plugin": "^0.1.16",
-    "cross-env": "^5.0.5",
+    "cross-env": "^5.1.1",
     "css-loader": "^0.28.5",
-    "express": "^4.16.1",
-    "extract-text-webpack-plugin": "^3.0.0",
+    "express": "^4.16.2",
+    "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^0.11.2",
     "html-webpack-plugin": "^2.30.1",
-    "less": "^2.7.2",
+    "less": "^2.7.3",
     "less-loader": "^4.0.5",
-    "postcss": "^6.0.9",
-    "postcss-gradient-transparency-fix": "^2.0.0",
-    "postcss-loader": "^2.0.6",
+    "postcss": "^6.0.13",
+    "postcss-gradient-transparency-fix": "^2.1.0",
+    "postcss-loader": "^2.0.8",
     "progress-bar-webpack-plugin": "^1.10.0",
     "prop-types": "^15.5.10",
     "style-loader": "^0.18.2",
-    "webpack": "^3.5.5",
-    "webpack-dev-server": "^2.7.1"
+    "url-loader": "^0.6.2",
+    "webpack": "^3.8.1",
+    "webpack-dev-server": "^2.9.3"
   }
 }

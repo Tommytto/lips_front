@@ -12,8 +12,24 @@ const webpack = require('webpack'),
     buildPath = path.resolve(__dirname, 'build');
 
 const extractCSS = new ExtractTextPlugin({filename: '[name].min.css', disable: false, allChunks: true});
-
+const postcssOpts = {
+    ident: 'postcss',
+    plugins: function() {
+        return [
+            require('autoprefixer')(),
+            require('postcss-gradient-transparency-fix')()
+        ];
+    },
+    config: {
+        ctx: {
+            autoprefixer: {
+                remove: false
+            }
+        }
+    }
+};
 const plugins = [
+    extractCSS,
     new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
         minChunks: Infinity,
@@ -62,8 +78,7 @@ if (isProd) {
                 join_vars: true,
             },
             output: {comments: false},
-        }),
-        extractCSS
+        })
     );
 } else {
     plugins.push(
@@ -105,25 +120,31 @@ module.exports = {
                 }
             },
             {
-                test: /\.(less|css)$/,
-                use: isProd
-                    ? extractCSS.extract({
-                            use: [
-                                'css-loader',
-                                'postcss-loader',
-                                {
-                                    loader: 'less-loader',
-                                    options: {
-                                        strictMath: true,
-                                    },
-                                },
-                            ],
-                        })
-                    : [
+                test: /\.less/,
+                use: extractCSS.extract({
+                    fallback: 'style-loader',
+                    use: [
                         'css-loader',
-                        'postcss-loader',
+                        {
+                            loader: 'postcss-loader',
+                            options: postcssOpts
+                        },
                         'less-loader'
                     ]
+                })
+            },
+            {
+                test: /\.css$/,
+                use: extractCSS.extract({
+                    fallback: 'style-loader',
+                    use: [
+                        'css-loader',
+                        {
+                            loader: 'postcss-loader',
+                            options: postcssOpts
+                        }
+                    ]
+                })
             },
             {
                 test: /\.(js|jsx|es)$/,

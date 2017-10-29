@@ -2,6 +2,7 @@ import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 import App from 'src/containers/App/index';
+import MainPageContainer from 'src/containers/MainPageContainer/index';
 
 export default function Router () {
     return <BrowserRouter>
@@ -10,7 +11,7 @@ export default function Router () {
             <Route exact path="/:module/:page/:type" component={App} />
             <Route exact path="/:module/:page" component={App} />
             <Route exact path="/:module" component={App} />
-            <Route component={App} />
+            <Route component={MainPageContainer} />
         </Switch>
     </BrowserRouter>;
 }
