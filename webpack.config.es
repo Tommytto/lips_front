@@ -39,7 +39,7 @@ const plugins = [
         'process.env': {NODE_ENV: JSON.stringify(nodeEnv)},
     }),
     new HtmlWebpackPlugin({
-        template: sourcePath + '/index.ejs',
+        template: sourcePath + '/main/index.ejs',
         production: isProd,
         inject: true,
     }),
