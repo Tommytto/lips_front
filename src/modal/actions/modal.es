@@ -1,7 +1,6 @@
 import {ActionTypes} from '../constants/modal'
 
 function openModal(modalKey) {
-    console.log(modalKey);
     return {
         type: ActionTypes.OPEN_MODAL,
         payload: modalKey,
@@ -9,6 +8,7 @@ function openModal(modalKey) {
 }
 
 function closeModal(modalKey) {
+    console.log(modalKey);
     return {
         type: ActionTypes.CLOSE_MODAL,
         payload: modalKey,

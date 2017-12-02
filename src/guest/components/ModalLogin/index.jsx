@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import bemCn from 'bem-cn';
-import ReactModal from 'react-modal';
+import {Modal} from 'src/modal/index.es';
 import {Link} from 'react-router-dom';
 
 import {Button} from 'src/common/index.es';
@@ -18,17 +18,13 @@ class ModalLogin extends Component {
 
     }
 
-    componentWillMount() {
-        ReactModal.setAppElement('body');
-    }
-
     render () {
         const {bemWrapper, isOpen, closeModal, onSubmit} = this.props;
 
         return (
-            <ReactModal
+            <Modal
                 isOpen={isOpen}
-                onRequestClose={closeModal}>
+                closeModal={closeModal}>
                 <form onSubmit={onSubmit}>
                     <p><b>Логин</b></p>
                     <input type="email" placeholder="Электронная почта"/><br/>
@@ -37,7 +33,7 @@ class ModalLogin extends Component {
                         Зарегистрироваться
                     </Button>
                 </form>
-            </ReactModal>
+            </Modal>
         );
     }
 

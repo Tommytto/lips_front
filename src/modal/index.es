@@ -9,3 +9,6 @@ export * from './actions/modal.es';
 
 //Selectors
 export * from './selectors/modal.es';
+
+//Components
+export * from './components/Modal';

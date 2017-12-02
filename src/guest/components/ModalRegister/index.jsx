@@ -1,6 +1,6 @@
 import React from 'react';
 import bemCn from 'bem-cn';
-import ReactModal from 'react-modal';
+import {Modal} from 'src/modal/index.es';
 import {Button} from 'src/common/index.es';
 const block = bemCn('modal-register');
 
@@ -19,7 +19,7 @@ class ModalRegister extends React.Component {
         const {bemWrapper, isOpen, closeModal} = this.props;
 
         return (
-            <ReactModal isOpen={isOpen} onRequestClose={closeModal}>
+            <Modal isOpen={isOpen} closeModal={closeModal}>
                 <form>
                     <p><b>Зарегистрируйтесь и начните обучение!</b></p>
                     <input type="text" placeholder="Полное имя"/><br/>
@@ -29,7 +29,7 @@ class ModalRegister extends React.Component {
                         Зарегистрироваться
                     </Button>
                 </form>
-            </ReactModal>
+            </Modal>
         );
     }
 
