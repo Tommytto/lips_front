@@ -1,19 +1,12 @@
 import React from 'react';
 import {render} from 'react-dom';
 import {Provider} from 'react-redux';
-
+import {getCourseList} from 'src/common/index.es';
+import {storeReducers} from './reducers.es';
 import 'src/common/style/main.less'
 
-import Router from './components/Router/index';
-import configureStore from 'src/common/configure-store';
-import {getCourseList} from 'src/common/actions/course-list';
-import CommonApi from 'src/common/api/index';
-import reducers from './reducers/index';
-
-const isProduction = process.env.NODE_ENV === 'production';
-const host = '';
-const api = new CommonApi(host);
-const store = configureStore(!isProduction, reducers, {api});
+import {Router} from './router.es';
+import {store} from './store.es';
 
 render(
     <Provider store={store}>
@@ -23,8 +16,8 @@ render(
 );
 
 if (module.hot) {
-    module.hot.accept('./components/Router/index', () => {
-        const HotRouter = require('./components/Router/index').default;
+    module.hot.accept('./router.es', () => {
+        const HotRouter = require('./router.es').default;
 
         render(
             <Provider store={store}>
@@ -35,8 +28,8 @@ if (module.hot) {
     });
 
     // Enable Webpack hot module replacement for reducers
-    module.hot.accept('./reducers', () => {
-        const nextReducer = require('./reducers').default;
+    module.hot.accept('./reducers.es', () => {
+        const nextReducer = require('./reducers.es').default;
         store.replaceReducer(nextReducer);
     });
 }

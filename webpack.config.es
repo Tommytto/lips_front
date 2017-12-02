@@ -102,7 +102,7 @@ module.exports = {
             'redux',
             'whatwg-fetch',
         ],
-        index: 'index',
+        main: 'main/index',
     },
     output: {
         path: buildPath,
@@ -187,7 +187,7 @@ module.exports = {
     plugins: plugins,
     devServer: !isProd
         ? {
-            contentBase: sourcePath,
+            contentBase: buildPath,
             historyApiFallback: true,
             port: 3000,
             hot: true,

@@ -15,7 +15,8 @@ export default class BaseApi {
      */
     request (url, method = 'GET', data = null, headers = {}) {
         const options = {
-            method: 'POST',
+            // method: 'POST',
+            method: 'GET',
             credentials: 'include',
             headers: new Headers({
                 ...headers,

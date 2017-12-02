@@ -2,8 +2,6 @@ import React from 'react';
 import bemCn from 'bem-cn';
 
 import './style.less'
-const block = bemCn('btn');
-
 
 class Button extends React.Component {
     constructor() {
@@ -12,15 +10,16 @@ class Button extends React.Component {
     }
 
     initBem() {
-
+        this.block = bemCn('btn');
     }
 
     render () {
         const {bemWrapper, onClick, type} = this.props;
+
         const btnProps = {
             type,
             onClick,
-            className: bemWrapper ? block.mix(bemWrapper(block())) : block(),
+            className: bemWrapper ? this.block.mix(bemWrapper(this.block()))() : this.block(),
         };
         return (
             <button {...btnProps}>
@@ -31,4 +30,6 @@ class Button extends React.Component {
 
 }
 
-export default Button;
+export {
+    Button,
+};

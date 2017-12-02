@@ -1,11 +1,11 @@
 import ActionTypes from '../constants/course-list';
-import {normalizeCourseList} from '../normalizers/course-list';
+import {normalizeCourseList} from '../schemes/course-list';
 import {selectorCourse} from '../selectors/course-list';
 
-function getCourseList(offset, limit) {
-    return (dispatch, getState, {api}) => {
+function getCourseList(offset = 0, limit = 20) {
+    return (dispatch, getState, {CourseList}) => {
         dispatch({type: ActionTypes.COURSE_LIST_LOAD});
-        api.CourseList.loadCourseList(offset, limit)
+        CourseList.loadCourseList(offset, limit)
             .then(({data}) => {
                 dispatch({type: ActionTypes.COURSE_LIST_LOAD_SUCCESS, payload: normalizeCourseList(data)});
             })

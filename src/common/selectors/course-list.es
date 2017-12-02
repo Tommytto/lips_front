@@ -1,17 +1,19 @@
+import {MODULE_NAME} from '../constants/config.es';
+
 function selectorCourseListData(state) {
-    return state.courseList.data;
+    return selectorCourseList(state).data;
 }
 
 function selectorCourseIdList(state) {
-    return state.courseList.list;
+    return selectorCourseList(state).list;
 }
 
 function selectorCourseList(state) {
-    return state.courseList;
+    return state[MODULE_NAME].courseList;
 }
 
 function selectorCourse(state, id) {
-    return state.courseList.data[id];
+    return selectorCourseList(state).data[id];
 }
 
 export {
