@@ -31,7 +31,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "pre-push": "yarn lint:css && yarn lint:js && exit 0"
+      "pre-push": "yarn lint:css & yarn lint:js & exit 0"
     }
   },
   "author": "TogyzbaevTN",
