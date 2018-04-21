@@ -1,17 +1,19 @@
 import thunk from 'redux-thunk';
-import {createStore, applyMiddleware, compose} from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux';
 
-function configureStore (isDev = false, reducer, extraArgs) {
-    const middlewares = [thunk.withExtraArgument(extraArgs)];
-    return createStore(
-        reducer,
-        compose(
-            applyMiddleware(...middlewares),
-            (isDev && window.devToolsExtension) ? window.devToolsExtension() : (f) => f
-        )
-    );
+
+function configureStore(enableDevtools = false, reducer, extraArgs) {
+  const middlewares = [thunk.withExtraArgument(extraArgs)];
+
+  return createStore(
+    reducer,
+    compose(
+      applyMiddleware(...middlewares),
+      enableDevtools && window.devToolsExtension
+        ? window.devToolsExtension()
+        : f => f,
+    ),
+  );
 }
 
-export {
-    configureStore,
-};
+export { configureStore };

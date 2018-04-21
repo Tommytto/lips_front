@@ -1,25 +1,30 @@
 import React from 'react';
-import './style.less';
-import ReactModal from 'react-modal';
+import ReactModal from "react-modal";
+import PropTypes from 'prop-types';
+import './style.scss';
 
 class Modal extends React.Component {
-    componentWillMount() {
-        ReactModal.setAppElement('body');
-    }
+  static propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    closeModal: PropTypes.func.isRequired,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]).isRequired,
+  };
 
-    render() {
-        const {isOpen, closeModal, children} = this.props;
-        console.log(this.props);
-        return (
-            <ReactModal
-                isOpen={isOpen}
-                onRequestClose={closeModal}>
-                {children}
-            </ReactModal>
-        )
-    }
+  componentWillMount() {
+    ReactModal.setAppElement('body');
+  }
+
+  render() {
+    const { isOpen, closeModal, children } = this.props;
+    return (
+      <ReactModal isOpen={isOpen} onRequestClose={closeModal}>
+        {children}
+      </ReactModal>
+    );
+  }
 }
 
-export {
-    Modal,
-};
+export { Modal };
