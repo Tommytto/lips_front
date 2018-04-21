@@ -21,7 +21,7 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint:js:fix & yarn lint:css:fix",
+      "pre-commit": "yarn lint:js:fix & yarn lint:css:fix & git add .",
       "pre-push": "yarn lint:js & yarn lint:css"
     }
   },
