@@ -21,8 +21,8 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint:js:fix || yarn lint:css:fix",
-      "pre-push": "yarn lint:js || yarn lint:css"
+      "pre-commit": "yarn lint:js:fix & yarn lint:css:fix",
+      "pre-push": "yarn lint:js & yarn lint:css"
     }
   },
   "author": "TogyzbaevTN",
