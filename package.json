@@ -6,7 +6,7 @@
     "start": "webpack-dev-server --mode development --config webpack.config.dev.js",
     "dev": "cross-env NODE_ENV=dev webpack --mode development --config webpack.config.dev.js",
     "build": "webpack -p --progress --mode production --config webpack.config.build.js",
-    "lint:js:fix": "eslint --fix --ext .es,.jsx ./src",
+    "lint:js:fix": "eslint --fix --ext .js,.jsx ./src",
     "lint:js": "eslint --ext .es,.jsx ./src",
     "lint:css:fix": "stylefmt -r ./src/**/*.scss",
     "lint:css": "stylelint ./src/**/*.scss"
