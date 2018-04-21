@@ -24,14 +24,15 @@
       "yarn lint:js:fix",
       "git add"
     ],
-    "*.{scss}": [
+    "*.scss": [
       "yarn lint:css:fix",
       "git add"
     ]
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "pre-push": "lint:css & 0"
     }
   },
   "author": "TogyzbaevTN",
