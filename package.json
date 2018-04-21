@@ -8,7 +8,7 @@
     "build": "webpack -p --progress --mode production --config webpack.config.build.js",
     "lint:js:fix": "eslint --fix --ext .js,.jsx ./src",
     "lint:js": "eslint --ext .es,.jsx ./src",
-    "lint:css:fix": "stylefmt -r ./src/**/*.scss",
+    "lint:css:fix": "stylelint --fix ./src/**/*.scss",
     "lint:css": "stylelint ./src/**/*.scss"
   },
   "repository": {
@@ -84,7 +84,6 @@
     "sass-loader": "7.0.1",
     "serve-favicon": "~2.4.5",
     "style-loader": "0.20.3",
-    "stylefmt": "^6.0.0",
     "stylelint": "^9.2.0",
     "url-loader": "1.0.1",
     "webpack": "4.5.0",
