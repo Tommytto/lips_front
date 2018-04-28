@@ -3,7 +3,9 @@
   "rules": {
     "import/prefer-default-export": "off",
     "import/no-unresolved": "off",
-    "import/extensions": "off"
+    "import/extensions": "off",
+    "react/prefer-stateless-function" : 1,
+    "no-shadow": 1
   },
   "env": {
     "browser": true,

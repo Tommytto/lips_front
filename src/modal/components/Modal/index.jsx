@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactModal from 'react-modal';
 
 import PropTypes from 'prop-types';
 import './style.scss';
@@ -8,22 +7,25 @@ class Modal extends React.Component {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     closeModal: PropTypes.func.isRequired,
+    className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
     ]).isRequired,
   };
 
-  componentWillMount() {
-    ReactModal.setAppElement('body');
+  static defaultProps = {
+    className: '',
   }
 
   render() {
-    const { isOpen, closeModal, children } = this.props;
+    const {
+      isOpen, closeModal, children, className,
+    } = this.props;
     return (
-      <ReactModal isOpen={isOpen} onRequestClose={closeModal}>
+      <Modal isOpen={isOpen} closeModal={closeModal} className={className}>
         {children}
-      </ReactModal>
+      </Modal>
     );
   }
 }

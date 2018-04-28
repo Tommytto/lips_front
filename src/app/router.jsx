@@ -1,13 +1,11 @@
+import { HelloComponent } from 'auth/components/HelloComponent';
 import React from 'react';
-import { HashRouter, Route, Switch } from 'react-router-dom';
-import { ExampleContainer } from '../example/containers/ExampleContainer/index';
+import { Route, Switch } from 'react-router-dom';
 
 const Router = () => (
-  <HashRouter>
-    <Switch>
-      <Route component={ExampleContainer} />
-    </Switch>
-  </HashRouter>
+  <Switch>
+    <Route component={HelloComponent} />
+  </Switch>
 );
 
 export { Router };
