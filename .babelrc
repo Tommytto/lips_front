@@ -1,4 +1,8 @@
 {
-  "presets": [["env", { "modules": false }], "stage-2", "react"],
-  "plugins": ["transform-runtime"]
+  "presets": ["env", "react", "flow", "stage-2"],
+  "env": {
+    "development": {
+      "plugins": ["flow-react-proptypes"]
+    }
+  }
 }

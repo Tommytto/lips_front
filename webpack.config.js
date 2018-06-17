@@ -1,133 +1,143 @@
-const path = require('path');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
-const StyleLintPlugin = require('stylelint-webpack-plugin');
-const dir = require('./dir');
+const path = require("path");
+const Dotenv = require("dotenv-webpack");
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
-// Is the current build a development build
-const IS_DEV = process.env.NODE_ENV === 'dev';
+const isProd = "production" === process.env.NODE_ENV;
+const port = process.env.PORT || 8080;
+const paths = {
+  dist: path.resolve(__dirname, "dist"),
+  public: path.resolve(__dirname, "public"),
+  src: path.resolve(__dirname, "src/app")
+};
 
-/**
- * Webpack Configuration
- */
+const envPlugin = new Dotenv({
+  safe: true,
+  systemvars: true
+});
+const htmlPlugin = new HtmlWebPackPlugin({
+  filename: "index.html",
+  template: path.resolve(paths.src, "index.html")
+});
+const cssPlugin = new MiniCssExtractPlugin({
+  chunkFilename: "[id].[chunkhash:8].min.css",
+  filename: "[name].[chunkhash:8].min.css"
+});
+
+let plugins = [envPlugin, cssPlugin, htmlPlugin];
+
+if (isProd) {
+  plugins = [
+    new CleanWebpackPlugin([path.resolve(paths.dist, "*")]),
+    new CopyWebpackPlugin([{ from: paths.public }])
+  ].concat(plugins);
+}
+
+function getCssLoader(options = {}, loaders = []) {
+  return [
+    isProd ? MiniCssExtractPlugin.loader : "style-loader",
+    { loader: "css-loader", options },
+    "postcss-loader",
+    ...loaders
+  ];
+}
+
+const cssLocalIdentName = isProd
+  ? "[hash:base64]"
+  : "[path][name]__[local]--[hash:base64:8]";
+
 module.exports = {
+  context: paths.src,
+  devServer: {
+    contentBase: paths.public,
+    historyApiFallback: true,
+    port
+  },
+  devtool: isProd ? "source-map" : "cheap-module-source-map",
   entry: {
-    vendors: [
-      'babel-polyfill',
-      'react',
-      'react-dom',
-      'redux',
-      'react-redux',
-      'react-router',
-      'react-router-dom',
-    ],
-    index: path.join(dir.src, 'app/index'),
+    main: "./index.jsx",
+    vendors: ["babel-polyfill", "whatwg-fetch"]
   },
-  resolve: {
-    modules: [dir.node, dir.src, dir.public],
-    extensions: ['*', '.js', '.jsx'],
-  },
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        default: false,
-        commons: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all',
-          minChunks: 2,
-        },
-      },
-    },
-  },
-  plugins: [
-    new webpack.DefinePlugin({
-      IS_DEV,
-    }),
-    new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // both options are optional
-      filename: '[name].css',
-      chunkFilename: '[id].css',
-    }),
-    new StyleLintPlugin(),
-    new HtmlWebpackPlugin({
-      alwaysWriteToDisk: true,
-      filename: path.resolve(dir.public, './index.html'),
-      hash: true,
-      inject: true,
-      production: !IS_DEV,
-      template: path.resolve(dir.src, 'index.html'),
-    }),
-    new HtmlWebpackHarddiskPlugin(),
-  ],
   module: {
     rules: [
       {
-        enforce: 'pre',
-        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loader: 'eslint-loader',
-      },
-
-      // BABEL
-      {
         test: /\.(js|jsx)$/,
-        loader: 'babel-loader',
-        exclude: /(node_modules)/,
-        options: {
-          compact: true,
-        },
+        use: ["babel-loader"]
       },
-
-      // // STYLES
-      // {
-      //   test: /\.css$/,
-      //   use: [
-      //     IS_DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
-      //     {
-      //       loader: 'css-loader',
-      //       options: {
-      //         sourceMap: IS_DEV,
-      //       },
-      //     },
-      //   ],
-      // },
-
-      // CSS / SASS
       {
-        test: /\.(scss|css)$/,
-        use: [
-          IS_DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
-          {
-            loader: 'css-loader',
-            options: {
-              sourceMap: IS_DEV,
-            },
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              sourceMap: IS_DEV,
-              includePaths: [dir.build],
-            },
-          },
-          {
-            loader: 'postcss-loader',
-          },
-        ],
+        exclude: /\.local\.css$/,
+        test: /\.css$/,
+        use: getCssLoader({
+          importLoaders: 1,
+          sourceMap: true
+        })
       },
-
-      // IMAGES
       {
-        test: /\.(jpe?g|png|gif)$/,
-        loader: 'file-loader',
-        options: {
-          name: '[path][name].[ext]',
-        },
+        test: /\.local\.css$/,
+        use: getCssLoader({
+          importLoaders: 1,
+          localIdentName: cssLocalIdentName,
+          modules: true,
+          sourceMap: true
+        })
       },
-    ],
+      {
+        exclude: /\.local\.less$/,
+        test: /\.less$/,
+        use: getCssLoader(
+          {
+            importLoaders: 2,
+            sourceMap: true
+          },
+          ["less-loader"]
+        )
+      },
+      {
+        test: /\.local\.less$/,
+        use: getCssLoader(
+          {
+            importLoaders: 2,
+            localIdentName: cssLocalIdentName,
+            modules: true,
+            sourceMap: true
+          },
+          ["less-loader"]
+        )
+      }
+    ]
   },
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true
+      }),
+      new OptimizeCSSAssetsPlugin()
+    ],
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          chunks: "all",
+          name: "vendors",
+          test: /[\\/]node_modules[\\/]/
+        }
+      }
+    }
+  },
+  output: {
+    chunkFilename: "[name].[chunkhash:8].min.js",
+    filename: "[name].[chunkhash:8].min.js",
+    publicPath: "/"
+  },
+  plugins,
+  resolve: {
+    extensions: ["*", ".js", ".jsx"],
+    modules: [paths.src, "node_modules"]
+  }
 };

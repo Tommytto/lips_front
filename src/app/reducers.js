@@ -1,12 +1,6 @@
-import { EXAMPLE_MODULE_NAME } from 'example/constants/config';
-import { exampleReducers } from 'example/reducers';
-import { MODAL_MODULE_NAME } from 'modal/constants/config';
-import { combineReducers } from 'redux';
-import { modalReducers } from '../modal/reducers';
+// @flow
+import { combineReducers } from "redux";
 
-const storeReducers = combineReducers({
-  [MODAL_MODULE_NAME]: modalReducers,
-  [EXAMPLE_MODULE_NAME]: exampleReducers,
-});
+const rootReducer = combineReducers({});
 
-export { storeReducers };
+export { rootReducer };

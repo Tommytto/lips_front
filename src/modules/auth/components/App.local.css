@@ -1,0 +1,8 @@
+:root {
+    --bg: #eee;
+}
+
+.App {
+    display: flex;
+    background: var(--bg);
+}
